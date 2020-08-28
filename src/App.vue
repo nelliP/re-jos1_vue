@@ -15,10 +15,11 @@ export default {
     Header,
   },
   methods: {
-    ...mapActions(["setPagesAction"]),
+    ...mapActions(["setPagesAction", "setCategoriesAction"]),
   },
   async created() {
     this.setPagesAction();
+    this.setCategoriesAction();
   },
 };
 </script>

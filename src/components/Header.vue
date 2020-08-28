@@ -15,10 +15,10 @@
 
     <div class="collapse navbar-collapse" id="navbarsExampleDefault">
       <ul class="navbar-nav mr-auto">
-        <li class="nav-item active">
-          <a class="nav-link" href="#"
-          >Home <span class="sr-only">(current)</span>
-          </a>
+        <li class="nav-item active" v-for="(p, i) in pages" :key="i">
+            <router-link class="nav-link" :to="'/' + p.slug">
+            {{p.name }}
+            </router-link>
         </li>
       </ul>      
     </div>
@@ -26,7 +26,12 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
+
 export default {
   components: {},
+  computed: {
+      ...mapState(["pages"])
+  }
 };
 </script>

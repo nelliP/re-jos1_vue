@@ -8,7 +8,7 @@
           <h3>{{product.name}}</h3>
           <p>{{product.description}}</p>
           <p>{{product.volumeInMl}}</p>
-          <p>{{product.price}}</p>
+          <p>{{product.price | currency}}</p>
           <p>
             <button class="btn btn-primary">Lägg i varukorgen</button>
           </p>

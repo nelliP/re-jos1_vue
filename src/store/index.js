@@ -7,12 +7,14 @@ Vue.use(Vuex);
 const baseUrl = "https://localhost:44352/api";
 const pagesUrl = `${baseUrl}/pages`;
 const categoriesUrl = `${baseUrl}/categories`;
+const productsUrl = `${baseUrl}/products`;
 
 export default new Vuex.Store({
     strict: true,
     state: {
-        pages: [], 
-        categories: []
+        pages: [],
+        categories: [],
+        products: []
     },
     mutations: {
         setPages(state, pages) {
@@ -20,6 +22,9 @@ export default new Vuex.Store({
         },
         setCategories(state, categories) {
             state.categories = categories;
+        },
+        setProducts(state, products) {
+            state.products = products;
         }
     },
     actions: {
@@ -28,6 +33,16 @@ export default new Vuex.Store({
         },
         async setCategoriesAction(context) {
             context.commit("setCategories", (await Axios.get(categoriesUrl)).data);
+        },
+        async setProductsByCategoryAction(context, category) {
+            let url;
+            if (category != "All") {
+                url = `${productsUrl}/${category}`;
+            } 
+            else {
+                url = `${productsUrl}`;
+            }
+            context.commit("setProducts", (await Axios.get(url)).data);
         }
     }
 });

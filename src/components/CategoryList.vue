@@ -4,10 +4,10 @@
 
     <ul class="nav flex-column mt-3">
       <li class="nav-item">
-        <router-link class="nav-link" to="/categories/All">All</router-link>
+        <router-link class="nav-link" to="/categories/all">All</router-link>
       </li>
       <li class="nav-item" v-for="(category, i) in categories" :key="i">
-        <router-link class="nav-link" :to="'/categories/' + category.name">{{category.name}}</router-link>
+        <router-link class="nav-link" :to="'/categories/' + category.slug">{{category.name}}</router-link>
       </li>
     </ul>    
   </div>
@@ -22,3 +22,10 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+a.router-link-active {
+  background: #fc9c00;
+  color:rgb(49, 49, 49);
+}
+</style>

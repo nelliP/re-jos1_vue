@@ -38,7 +38,7 @@ export default new Vuex.Store({
         },
         async setProductsByCategoryAction(context, category) {
             let url;
-            if (category != "All") {
+            if (category != "all") {
                 url = `${productsUrl}/${category}`;
             } 
             else {

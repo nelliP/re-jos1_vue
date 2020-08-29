@@ -41,3 +41,11 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+.btn-primary, .btn {
+  background: #fc9c00;
+  border: #313131;
+  color:#313131;
+}
+</style>

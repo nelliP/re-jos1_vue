@@ -1,6 +1,7 @@
 import Vue from "vue";
 import Vuex from "vuex";
 import Axios from "axios";
+import CartModule from "./cart";
 
 Vue.use(Vuex);
 
@@ -12,6 +13,7 @@ const productImagesUrl = "https://localhost:44352/media/products/";
 
 export default new Vuex.Store({
     strict: true,
+    modules: { cart: CartModule },
     state: {
         pages: [],
         categories: [],
@@ -37,7 +39,7 @@ export default new Vuex.Store({
         },
         setCurrentCategory(state, category) {
             state.currentCategory = category;
-        }, 
+        },
         setCurrentPage(state, page) {
             state.currentPage = page;
         }
@@ -55,7 +57,7 @@ export default new Vuex.Store({
             if (category != "all") {
                 url = `${productsUrl}/${category}?page=${context.state.currentPage}`;
                 productCountUrl = `${productsUrl}/count/${category}`;
-            } 
+            }
             else {
                 url = `${productsUrl}`;
                 productCountUrl = `${productsUrl}/count/all`;
@@ -68,7 +70,7 @@ export default new Vuex.Store({
         },
         async setProductsByCategoryPaginationAction(context, page) {
             let url;
-            
+
             if (context.state.currentCategory !== "all") {
                 url = `${productsUrl}/${context.state.currentCategory}?page=${page}`;
             }

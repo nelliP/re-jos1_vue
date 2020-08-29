@@ -10,11 +10,11 @@
           <p>{{product.volumeInMl}}</p>
           <p>{{product.price | currency}}</p>
           <p>
-            <button class="btn btn-primary">Lägg i varukorgen</button>
+            <button class="btn btn-primary" @click="handleProduct(product)">Lägg i varukorgen</button>
           </p>
         </div>
       </div>
-      
+
       <ProductPagination />
     </div>
   </div>
@@ -31,12 +31,16 @@ export default {
     CategoryList,
     ProductPagination,
   },
-  computed: {    
+  computed: {
     ...mapState(["products", "productImages"]),
   },
   methods: {
     ...mapMutations(["setCurrentCategory", "setCurrentPage"]),
+    ...mapMutations({ addProduct: "cart/addProduct" }),
     ...mapActions(["setProductsByCategoryAction"]),
+    handleProduct(product) {
+      this.addProduct(product);
+    },
   },
   created() {
     let category = this.$route.params.category;

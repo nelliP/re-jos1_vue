@@ -4,10 +4,10 @@
     <div class="col-9">
       <div class="row">
         <div class="col-4 mt-3" v-for="(product, i) in products" :key="i">
-          <p>image</p>
+          <img :src="productImages + product.image" class="img-fluid">
           <h3>{{product.name}}</h3>
           <p>{{product.description}}</p>
-          <p>{{product.volume}}</p>
+          <p>{{product.volumeInMl}}</p>
           <p>{{product.price}}</p>
           <p>
             <button class="btn btn-primary">Lägg i varukorgen</button>
@@ -26,7 +26,7 @@ import CategoryList from "./CategoryList";
 export default {
   components: { CategoryList },
   computed: {
-    ...mapState(["products"]),
+    ...mapState(["products", "productImages"]),
   },
   methods: {
     ...mapActions(["setProductsByCategoryAction"])
@@ -34,6 +34,10 @@ export default {
   created() {
     let category = this.$route.params.category;
     this.setProductsByCategoryAction(category);
+  },
+  beforeRouteUpdate(to, ftom, next) {
+    this.setProductsByCategoryAction(to.params.category);
+    next();
   }
 };
 </script>

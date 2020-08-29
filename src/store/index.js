@@ -16,7 +16,11 @@ export default new Vuex.Store({
         pages: [],
         categories: [],
         products: [],
-        productImages: productImagesUrl
+        productImages: productImagesUrl,
+        currentPage: 1,
+        pageCount: 0,
+        pageSize: 2,
+        currentCategory: "all"
     },
     mutations: {
         setPages(state, pages) {
@@ -27,6 +31,15 @@ export default new Vuex.Store({
         },
         setProducts(state, products) {
             state.products = products;
+        },
+        setPageCount(state, count) {
+            state.pageCount = Math.ceil(Number(count) / state.pageSize);
+        },
+        setCurrentCategory(state, category) {
+            state.currentCategory = category;
+        }, 
+        setCurrentPage(state, page) {
+            state.currentPage = page;
         }
     },
     actions: {
@@ -38,11 +51,29 @@ export default new Vuex.Store({
         },
         async setProductsByCategoryAction(context, category) {
             let url;
+            let productCountUrl;
             if (category != "all") {
-                url = `${productsUrl}/${category}`;
+                url = `${productsUrl}/${category}?page=${context.state.currentPage}`;
+                productCountUrl = `${productsUrl}/count/${category}`;
             } 
             else {
                 url = `${productsUrl}`;
+                productCountUrl = `${productsUrl}/count/all`;
+            }
+
+            let productCount = (await Axios.get(productCountUrl)).data;
+
+            context.commit("setPageCount", productCount);
+            context.commit("setProducts", (await Axios.get(url)).data);
+        },
+        async setProductsByCategoryPaginationAction(context, page) {
+            let url;
+            
+            if (context.state.currentCategory !== "all") {
+                url = `${productsUrl}/${context.state.currentCategory}?page=${page}`;
+            }
+            else {
+                url = `${productsUrl}?page=${page}`;
             }
             context.commit("setProducts", (await Axios.get(url)).data);
         }

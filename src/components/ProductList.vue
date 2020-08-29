@@ -4,7 +4,7 @@
     <div class="col-9">
       <div class="row">
         <div class="col-4 mt-3" v-for="(product, i) in products" :key="i">
-          <img :src="productImages + product.image" class="img-fluid">
+          <img :src="productImages + product.image" class="img-fluid" />
           <h3>{{product.name}}</h3>
           <p>{{product.description}}</p>
           <p>{{product.volumeInMl}}</p>
@@ -14,38 +14,49 @@
           </p>
         </div>
       </div>
+      
+      <ProductPagination />
     </div>
   </div>
 </template>
 
 <script>
-import { mapState, mapActions } from "vuex";
+import { mapState, mapActions, mapMutations } from "vuex";
 
 import CategoryList from "./CategoryList";
+import ProductPagination from "./ProductPagination";
 
 export default {
-  components: { CategoryList },
-  computed: {
+  components: {
+    CategoryList,
+    ProductPagination,
+  },
+  computed: {    
     ...mapState(["products", "productImages"]),
   },
   methods: {
-    ...mapActions(["setProductsByCategoryAction"])
+    ...mapMutations(["setCurrentCategory", "setCurrentPage"]),
+    ...mapActions(["setProductsByCategoryAction"]),
   },
   created() {
     let category = this.$route.params.category;
     this.setProductsByCategoryAction(category);
+    this.setCurrentCategory(category);
   },
   beforeRouteUpdate(to, ftom, next) {
+    this.setCurrentPage(1);
     this.setProductsByCategoryAction(to.params.category);
+    this.setCurrentCategory(to.params.category);
     next();
-  }
+  },
 };
 </script>
 
 <style scoped>
-.btn-primary, .btn {
+.btn-primary,
+.btn {
   background: #fc9c00;
   border: #313131;
-  color:#313131;
+  color: #313131;
 }
 </style>
